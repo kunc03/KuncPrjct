@@ -25,5 +25,5 @@ export const AuthContextProvider = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
-  return <AuthContext.Provider value={{ user }}>{loading ? <div className="w-full h-screen">Loading...</div> : children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user }}>{loading ? <div className="w-full h-screen flex items-center justify-center">Loading...</div> : children}</AuthContext.Provider>;
 };

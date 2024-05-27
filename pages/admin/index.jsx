@@ -12,6 +12,7 @@ const AdminPage = () => {
   const router = useRouter();
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -50,6 +51,11 @@ const AdminPage = () => {
     }
   };
 
+  const handleShow = () => {
+    setShow(!show);
+  };
+
+  console.log(data);
   return (
     <div className="flex flex-col gap-2 items-center">
       <Navbar />
@@ -77,10 +83,17 @@ const AdminPage = () => {
         ))} */}
           <div className="flex flex-col gap-2 justify-center items-center">
             <h1>New Products</h1>
-            <div className="flex gap-5 items-center">
-              <p>{data.name}</p>
-              <p>{data.price}</p>
-            </div>
+            {data ? (
+              <div className="flex gap-5 items-center">
+                <p>{data.name}</p>
+                <p>{data.price}</p>
+              </div>
+            ) : (
+              <div className="flex gap-5 items-center">
+                <p>name</p>
+                <p>price</p>
+              </div>
+            )}
           </div>
         </div>
       </div>

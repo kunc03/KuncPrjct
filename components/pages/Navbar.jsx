@@ -1,9 +1,20 @@
 import { useAuthContext } from '@/context/AuthContext';
-import { signOut } from 'firebase/auth';
+import { signOut } from '@/lib/firebase/services';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const Navbar = () => {
   const { user } = useAuthContext();
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    const { result, error } = await signOut();
+    if (error) {
+      console.error('Sign out error:', error);
+    } else {
+      router.push('/');
+    }
+  };
 
   return (
     <div className="w-full p-10 bg-gray-400 text-gray-50 flex items-center justify-between">
@@ -15,7 +26,7 @@ const Navbar = () => {
           <Link href={'/admin'} className="p-1 bg-sky-400 rounded-sm hover:bg-sky-600 hover:text-sky-50 duration-200 ">
             Dashboard
           </Link>
-          <button onClick={() => signOut()} className="p-1 bg-sky-400 rounded-sm hover:bg-sky-600 hover:text-sky-50 duration-200 ">
+          <button onClick={handleSignOut} className="p-1 bg-sky-400 rounded-sm hover:bg-sky-600 hover:text-sky-50 duration-200 ">
             Sign Out
           </button>
         </div>

@@ -1,25 +1,26 @@
+import firebase_app from '@/lib/firebase/init';
 import { signIn } from '@/lib/firebase/services';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { Router } from 'next/router';
 import React from 'react';
 
 function LoginPage() {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [remember, setRemember] = React.useState(false);
+  const [error, setError] = React.useState(null);
   const router = useRouter();
 
   const handleForm = async (event) => {
     event.preventDefault();
 
-    const { result, error } = await signIn(email, password);
-
+    const { result, error } = await signIn(email, password, remember);
     if (error) {
-      return console.log(error);
+      setError(error.message);
+    } else {
+      router.push('/admin');
     }
-
-    // else successful
-    console.log(result);
-    return router.push('/admin');
   };
   return (
     <div className="p-6 border-[1px] border-gray-300 flex flex-col justify-center items-center gap-5 lg:w-[40%] md:w-[40%] w-[95%]">
@@ -34,6 +35,14 @@ function LoginPage() {
           <p>Password</p>
           <input onChange={(e) => setPassword(e.target.value)} required type="password" name="password" id="password" placeholder="password" className="p-2 w-full outline-none" />
         </label>
+
+        <div>
+          <label>
+            <input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} />
+            Remember Me
+          </label>
+        </div>
+
         <button type="submit" className="bg-sky-600 py-2 text-sky-50 font-semibold hover:ring-[1px] hover:ring-sky-600 hover:bg-sky-50 hover:text-sky-600 duration-300">
           Sign In
         </button>
