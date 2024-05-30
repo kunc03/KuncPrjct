@@ -9,7 +9,7 @@ function LoginPage() {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [remember, setRemember] = React.useState(false);
-  const [error, setError] = React.useState(null);
+  const [error, setError] = React.useState('');
   const router = useRouter();
 
   const handleForm = async (event) => {
@@ -17,7 +17,7 @@ function LoginPage() {
 
     const { result, error } = await signIn(email, password, remember);
     if (error) {
-      setError(error.message);
+      setError('Email or password is incorrect');
     } else {
       router.push('/admin');
     }
@@ -25,7 +25,7 @@ function LoginPage() {
   return (
     <div className="p-6 border-[1px] border-gray-300 flex flex-col justify-center items-center gap-5 lg:w-[40%] md:w-[40%] w-[95%]">
       <h1 className="text-3xl font-semibold text-sky-600">Sign In</h1>
-
+      {error && <p className="text-red-400 text-sm">{error}</p>}
       <form onSubmit={handleForm} className="form flex flex-col w-full gap-5">
         <label htmlFor="email">
           <p>Email</p>
